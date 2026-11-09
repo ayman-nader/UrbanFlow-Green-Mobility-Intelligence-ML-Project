@@ -52,7 +52,7 @@ Follow these steps to run the application locally on your machine:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/UrbanFlow-Green-Mobility-Intelligence.git
+git clone https://github.com/ayman-nader/UrbanFlow-Green-Mobility-Intelligence-ML-Project
 cd UrbanFlow-Green-Mobility-Intelligence
 ```
 
