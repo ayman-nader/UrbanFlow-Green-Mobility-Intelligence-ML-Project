@@ -1,6 +1,7 @@
-# 🚦 UrbanFlow Green Mobility Intelligence
+# 🚗🍃 UrbanFlow Green Mobility Intelligence
+A production-ready MLOps data product built to evaluate real-time intersection node performance, congestion classifications, wait times, and carbon emission metrics.
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://urbanflow-green-mobility-intelligence-ml-project-ivzhuuirbgg29.streamlit.app/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![XGBoost](https://img.shields.io/badge/ML-XGBoost-green.svg)](https://xgboost.readthedocs.io/)
 
@@ -26,7 +27,7 @@ An enterprise-grade smart-city traffic intelligence platform and decision-suppor
 
 ---
 
-## 📁 Repository Structure
+## 🗃️ Repository Structure
 
 ```text
 ├── app.py                            # Streamlit web application dashboard
@@ -44,6 +45,10 @@ An enterprise-grade smart-city traffic intelligence platform and decision-suppor
 ```
 
 ---
+
+## 🕹️ Live Demo
+
+Experience the live application here: [UrbanFlow Green Mobility Intelligence on Streamlit Cloud](https://urbanflow-green-mobility-intelligence-ml-project-ivzhuuirbgg29.streamlit.app/)
 
 ## 💾 Quickstart (Local Installation)
 
