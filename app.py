@@ -11,7 +11,7 @@ from datetime import datetime
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="UrbanFlow Green Mobility Intelligence",
-    page_icon="🚦",
+    page_icon="🚗🍃",
     layout="wide"
 )
 
@@ -168,7 +168,7 @@ def generate_html_report(input_df, predictions):
     </head>
     <body>
         <div class="header">
-            <h1>🚦 UrbanFlow Green Mobility Intelligence</h1>
+            <h1>🚗🍃 UrbanFlow Green Mobility Intelligence</h1>
             <p>Executive Node Evaluation Report | Generated: {timestamp}</p>
         </div>
         
@@ -226,7 +226,7 @@ if app_mode == "Interactive Single Node":
 st.sidebar.info("💡 Tip: Toggle between interactive mode and batch CSV evaluation depending on your analysis scope.")
 
 # --- 6. MAIN HEADER ---
-st.title("🚦 UrbanFlow Green Mobility Intelligence")
+st.title("🚗🍃 UrbanFlow Green Mobility Intelligence")
 st.markdown("Evaluate real-time intersection node performance, congestion levels, wait times, and carbon emission metrics.")
 
 # ==============================================================================
@@ -289,7 +289,7 @@ else:
     with st.form("prediction_form"):
         st.markdown("### 🛠️ Configure Intersection Parameters")
         
-        with st.expander("📍 Location & Environmental Categories", expanded=True):
+        with st.expander("🔍 Location & Environmental Categories", expanded=True):
             col1, col2, col3 = st.columns(3)
             
             cat_emojis = {
@@ -325,7 +325,7 @@ else:
             binary_feats = num_meta['binary_features']
             
             binary_emojis = {
-                'is_weekend': "📅", 'is_holiday': "🎉", 'rush_hour': "🚗",
+                'is_weekend': "📅", 'is_holiday': "🎉", 'rush_hour': "🚕",
                 'nearby_school': "🏫", 'nearby_hospital': "🏥", 'nearby_market': "🛒",
                 'construction_activity': "🏗️", 'public_event': "🏟️",
                 'accident_reported': "⚠️", 'emergency_vehicle_detected': "🚑"
@@ -356,14 +356,14 @@ else:
             continuous_feats = num_meta['continuous_features']
             
             continuous_emojis = {
-                'latitude': "🌐", 'longitude': "🗺️", 'lanes': "🛣️", 'speed_limit': "⏱️",
-                'vehicle_count': "🚙", 'average_speed': "🚗", 'heavy_vehicle_count': "🚚",
-                'motorcycle_count': "🏍️", 'public_transport_count': "🚌", 'traffic_density': "📊",
+                'latitude': "🌐", 'longitude': "🗺️", 'lanes': "🛣️", 'speed_limit': "🛑",
+                'vehicle_count': "🚙", 'average_speed': "⏩", 'heavy_vehicle_count': "🚚",
+                'motorcycle_count': "🏍️", 'public_transport_count': "🚌", 'traffic_density': "👥",
                 'queue_length': "📏", 'average_wait_time': "⏳", 'hour': "🕒", 'day_of_week': "📆",
                 'temperature': "🌡️", 'rainfall_mm': "🌧️", 'visibility_km': "🌫️",
                 'air_quality_index': "🍃", 'parking_occupancy': "🅿️", 'traffic_camera_count': "📷",
-                'signal_cycle_seconds': "🚦", 'green_light_duration': "🟢", 'traffic_flow_rate': "🌊",
-                'log_queue_length': "📈"
+                'signal_cycle_seconds': "🚥", 'green_light_duration': "🟢", 'traffic_flow_rate': "🔀",
+                'log_queue_length': "🔄"
             }
             
             unit_labels = {
@@ -375,6 +375,33 @@ else:
                 'public_transport_count': ' (veh)'
             }
             
+            continuous_help_text = {
+                'latitude': "Geographic coordinate latitude position across the urban network.",
+                'longitude': "Geographic coordinate longitude position across the urban network.",
+                'lanes': "Total number of active lanes available at the intersection node.",
+                'speed_limit': "Legal maximum speed restriction configured for the roadway.",
+                'vehicle_count': "Total count of passenger vehicles detected passing through the node.",
+                'average_speed': "Mean observed speed of traffic flow across the sector.",
+                'heavy_vehicle_count': "Count of freight trucks and heavy commercial vehicles.",
+                'motorcycle_count': "Count of two-wheeled motorized vehicles.",
+                'public_transport_count': "Count of active buses and mass transit units.",
+                'traffic_density': "Calculated concentration of vehicles per square unit.",
+                'queue_length': "Measured physical backup length of vehicles waiting at the light.",
+                'average_wait_time': "Observed average delay experienced by commuters.",
+                'hour': "Current hour of the daily operational timeline (0–23).",
+                'day_of_week': "Numerical day index of the weekly cycle.",
+                'temperature': "Ambient atmospheric temperature recorded by IoT weather sensors.",
+                'rainfall_mm': "Precipitation volume measured in millimeters.",
+                'visibility_km': "Atmospheric clarity distance measured in kilometers.",
+                'air_quality_index': "Environmental pollution index score at the location.",
+                'parking_occupancy': "Percentage of utilized street parking capacity.",
+                'traffic_camera_count': "Number of active closed-circuit monitoring cameras.",
+                'signal_cycle_seconds': "Total duration length of a complete traffic light phase cycle.",
+                'green_light_duration': "Active green phase window duration.",
+                'traffic_flow_rate': "Rate of vehicle passage volume over time.",
+                'log_queue_length': "Log-transformed statistical index measuring traffic backup severity."
+            }
+            
             i = 0
             for feat, meta in continuous_feats.items():
                 target_col = [c_col1, c_col2, c_col3][i % 3]
@@ -383,7 +410,13 @@ else:
                     unit = unit_labels.get(feat, '')
                     
                     display_name = "Traffic Backup Severity Index" if feat == 'log_queue_length' else feat.replace('_', ' ').title()
-                    readable_label = f"{emoji} {display_name}{unit} [Min: {meta['min']}, Max: {meta['max']}]"
+                    # Clean label without jarring min/max numbers inline
+                    readable_label = f"{emoji} {display_name}{unit}"
+                    
+                    # Concise summary explanation + explicit min/max bounds inside the help tooltip
+                    base_desc = continuous_help_text.get(feat, "Continuous sensor telemetry metric.")
+                    tooltip = f"{base_desc} (Allowed Range — Min: {meta['min']}, Max: {meta['max']})"
+                    
                     step_val = float(meta.get('step', 0.1 if 'latitude' in feat or 'longitude' in feat else 1.0 if meta['min'].is_integer() and meta['max'].is_integer() else 0.1))
                     
                     user_inputs[feat] = st.slider(
@@ -391,6 +424,7 @@ else:
                         min_value=float(meta['min']),
                         max_value=float(meta['max']),
                         step=step_val,
+                        help=tooltip,
                         key=f"ui_{feat}"
                     )
                 i += 1
@@ -420,7 +454,7 @@ else:
                     'wait_time': wait_time_actual,
                     'emission': emission_actual
                 }
-                st.toast("Traffic intelligence analysis completed successfully!", icon="🚀")
+                st.toast("Traffic intelligence analysis completed successfully!", icon="🫡")
             except Exception as e:
                 st.error(f"An error occurred during model inference: {e}")
 
@@ -430,7 +464,7 @@ else:
         
         res_col_hdr1, res_col_hdr2 = st.columns([3, 1])
         with res_col_hdr1:
-            st.subheader("📊 Latest Traffic Intelligence Results")
+            st.subheader("📋 Latest Traffic Intelligence Results")
         with res_col_hdr2:
             html_report = generate_html_report(st.session_state.input_df, st.session_state.predictions)
             st.download_button(
@@ -533,7 +567,7 @@ else:
         map_col, explain_col = st.columns([1, 1])
 
         with map_col:
-            st.markdown("#### 🗺️ Evaluated Intersection Node GIS Pin")
+            st.markdown("#### 📍 Evaluated Intersection Node GIS Pin")
             if "latitude" in st.session_state.input_df.columns and "longitude" in st.session_state.input_df.columns:
                 lat_val = float(st.session_state.input_df['latitude'].iloc[0])
                 lon_val = float(st.session_state.input_df['longitude'].iloc[0])
@@ -543,7 +577,7 @@ else:
                 st.info("Latitude and longitude coordinates not available.")
 
         with explain_col:
-            st.markdown("#### 🔍 Local Feature Contribution Drivers")
+            st.markdown("#### 🧩 Local Feature Contribution Drivers")
             st.markdown("Top active telemetry triggers influencing this specific node prediction:")
             
             try:
@@ -575,7 +609,7 @@ else:
                 st.caption(f"Local explainability breakdown unavailable: {e}")
 
         # --- GLOBAL FEATURE IMPORTANCE MODULE (DYNAMICALLY HIGHLIGHTED) ---
-        st.markdown("### 📈 Global Model Intelligence")
+        st.markdown("### ⚙️ Global Model Intelligence")
         st.markdown("Global XGBoost feature weights across the urban network. *Green bars indicate features active in your current scenario.*")
         
         try:

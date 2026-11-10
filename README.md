@@ -3,13 +3,12 @@
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![XGBoost](https://img.shields.io/badge/ML-XGBoost-green.svg)](https://xgboost.readthedocs.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An enterprise-grade smart-city traffic intelligence platform and decision-support web application. **UrbanFlow Green Mobility Intelligence** leverages multi-target XGBoost pipelines to deliver real-time congestion classification, intersection wait time regression, and carbon emission modeling, featuring local explainability and printable executive reporting.
 
 ---
 
-## 🌟 Key Features
+## 🗝️ Key Features
 
 * **Multi-Target Machine Learning Pipeline:**
   * **Congestion Classification:** Categorizes traffic density into actionable status levels.
@@ -46,7 +45,7 @@ An enterprise-grade smart-city traffic intelligence platform and decision-suppor
 
 ---
 
-## 🚀 Quickstart (Local Installation)
+## 💾 Quickstart (Local Installation)
 
 Follow these steps to run the application locally on your machine:
 
@@ -76,7 +75,7 @@ The application will automatically open in your default browser at `http://local
 
 ---
 
-## 📊 Dataset Attribution & Licensing
+## 🗄️ Dataset Attribution & Licensing
 
 * **Dataset Title:** CityFlow - Smart Urban Mobility & Traffic IoT
 * **Source:** [Kaggle Dataset Datacard](https://www.kaggle.com/datasets/mobeenfatimah/cityflow-smart-urban-mobility-and-traffic-iot)
